@@ -124,8 +124,7 @@ def handle_text_message(event):
                 event.reply_token, [
                 TemplateSendMessage(
                     alt_text='Stalk Instagram',
-                    template=image_carousel_template,
-                    template2=image_carousel_template2
+                    template=image_carousel_template
                     )
                 ]
                 )
