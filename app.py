@@ -83,15 +83,54 @@ def eyny_movie():
 @handler.add(MessageEvent, message=TextMessage)
 def handle_text_message(event):
     text = event.message.text
-    if 'bangsat1' in text.lower():
-            profile = line_bot_api.get_profile(event.source.user_id)
+    if "/stalk " in text.lower():
+        user = text.lower().replace("/stalk ","")
+        r = request.get('http://api.secold.com/instagram/stalk/'+user+'/postlimit/6')
+        data = r.text
+        data = json.loads(data)
+        private = data['results']
+        if private == []:
             line_bot_api.reply_message(
                 event.reply_token, [
-                    TextSendMessage(
-                        text='Ett ' +profile.display_name+ ' gaboleh ngomong jorok ya'
+                TextSendMessage(
+                    text="Failed, User mungkin di private atau post kurang dari 6"
                     )
-               	]
-            )
+                ]
+                )
+        else:
+            image_carousel_template = ImageCarouselTemplate(columns=[
+                ImageCarouselColumn(image_url=data['results'][0]['url'],
+                                    actions=URITemplateAction(
+                                        label='Save', url=data['results'][0]['url'])),
+                ImageCarouselColumn(image_url=data['results'][1]['url'],
+                                    actions=URITemplateAction(
+                                        label='Save', url=data['results'][1]['url'])),
+                ImageCarouselColumn(image_url=data['results'][2]['url'],
+                                    actions=URITemplateAction(
+                                        label='Save', url=data['results'][2]['url']))
+            ])
+            image_carousel_template2 = ImageCarouselTemplate(columns=[
+                ImageCarouselColumn(image_url=data['results'][3]['url'],
+                                    actions=URITemplateAction(
+                                    label='Save', url=data['results'][3]['url'])),
+                ImageCarouselColumn(image_url=data['results'][4]['url'],
+                                    actions=URITemplateAction(
+                                    label='Save', url=data['results'][4]['url'])),
+                ImageCarouselColumn(image_url=data['results'][5]['url'],
+                                    actions=URITemplateAction(
+                                    label='Save', url=data['results'][5]['url']))
+            ])
+            line_bot_api.reply_message(
+                event.reply_token, [
+                TemplateSendMessage(
+                    alt_text='Stalk Instagram',
+                    template=image_carousel_template,
+                    template2=image_carousel_template2
+                    )
+                ]
+                )
+
+
 
     elif text == '/bye':
         if isinstance(event.source, SourceGroup):
