@@ -88,8 +88,7 @@ def handle_text_message(event):
         r = request.get('http://api.secold.com/instagram/stalk/'+user+'/postlimit/6')
         data = r.text
         data = json.loads(data)
-        private = data['results']
-        if private == []:
+        if data['results'] != []:
             line_bot_api.reply_message(
                 event.reply_token, [
                 TextSendMessage(
