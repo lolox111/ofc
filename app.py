@@ -109,17 +109,6 @@ def handle_text_message(event):
                                     actions=URITemplateAction(
                                         label='Save', url=data['results'][2]['url']))
             ])
-            image_carousel_template2 = ImageCarouselTemplate(columns=[
-                ImageCarouselColumn(image_url=data['results'][3]['url'],
-                                    actions=URITemplateAction(
-                                    label='Save', url=data['results'][3]['url'])),
-                ImageCarouselColumn(image_url=data['results'][4]['url'],
-                                    actions=URITemplateAction(
-                                    label='Save', url=data['results'][4]['url'])),
-                ImageCarouselColumn(image_url=data['results'][5]['url'],
-                                    actions=URITemplateAction(
-                                    label='Save', url=data['results'][5]['url']))
-            ])
             line_bot_api.reply_message(
                 event.reply_token, [
                 TemplateSendMessage(
