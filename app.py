@@ -109,14 +109,9 @@ def handle_text_message(event):
                                     actions=URITemplateAction(
                                         label='Save', url=data['results'][2]['url']))
             ])
-            line_bot_api.reply_message(
-                event.reply_token, [
-                TemplateSendMessage(
-                    alt_text='Stalk Instagram',
-                    template=image_carousel_template
-                    )
-                ]
-                )
+            template_message = TemplateSendMessage(
+                alt_text='Stalk ig', template=image_carousel_template)
+            line_bot_api.reply_message(event.reply_token, template_message)
 
 
 
