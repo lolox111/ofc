@@ -112,7 +112,17 @@ def handle_text_message(event):
                 alt_text='Stalk ig', template=image_carousel_template)
             line_bot_api.reply_message(event.reply_token, template_message)
 
-
+    elif "/ig " in text.lower():
+        username = text.lower().replace('/ig ','')
+        path = 'http://rahandiapi.herokuapp.com/instainfo/'+username+'?key=betakey'
+        r = requests.get(path)
+        data = r.json()
+        line_bot_api.reply_message(
+                event.reply_token, [
+                TextSendMessage(text='\nNama : '+str(data['result']['name'])
+                    )
+                ]
+                )
 
     elif text == '/bye':
         if isinstance(event.source, SourceGroup):
